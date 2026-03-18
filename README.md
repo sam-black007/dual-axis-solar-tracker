@@ -1,6 +1,6 @@
 # ☀️ Dual Axis Solar Tracker Pro
 
-A professional-grade dual-axis solar tracking system with real-time web dashboard, weather integration, and solar energy analytics. Tracks the sun throughout the day to maximize solar panel efficiency.
+A professional-grade dual-axis solar tracking system with real-time web dashboard, weather integration, solar energy analytics, and environmental monitoring. Tracks the sun throughout the day to maximize solar panel efficiency while monitoring environmental conditions.
 
 ![Project Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Platform](https://img.shields.io/badge/Platform-ESP32%20+%20Arduino-brightblue)
@@ -17,16 +17,250 @@ A professional-grade dual-axis solar tracking system with real-time web dashboar
 
 ---
 
+## 🔧 System Overview
+
+This is a multi-sensor autonomous control system built around two microcontrollers working together:
+
+### Core Components
+| Controller | Primary Function |
+|------------|----------------|
+| **Arduino Uno** | Sensor data acquisition, Servo control, LCD interface |
+| **ESP32** | WiFi/IoT communication, Web server, Cloud interface |
+
+### Sensors Integrated
+| Sensor | Purpose |
+|--------|---------|
+| **4× LDR Sensors** | Light sensing for solar tracking |
+| **DHT11** | Temperature & Humidity monitoring |
+| **MQ Gas Sensor** | Air quality / Gas detection |
+| **BMP280** | Pressure & Altitude (via ESP32) |
+
+### Power System
+- **2× 18650 Li-ion batteries** (rechargeable)
+- **DC-DC Boost Converter** (step-up module)
+- **Common GND** across all components
+
+---
+
+## ⚡ Power Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    POWER DISTRIBUTION                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│   ┌──────────────┐      ┌─────────────────┐                │
+│   │  18650 × 2   │──────│  Boost Converter │                │
+│   │  (Battery)   │      │    (5V Output)    │                │
+│   └──────────────┘      └────────┬────────┘                │
+│                                  │                          │
+│                    ┌─────────────┼─────────────┐            │
+│                    │             │             │            │
+│                    ▼             ▼             ▼            │
+│              ┌──────────┐ ┌──────────┐ ┌──────────┐      │
+│              │  Arduino │ │   ESP32  │ │  Sensors │      │
+│              │   Uno    │ │          │ │  + LCD   │      │
+│              └──────────┘ └──────────┘ └──────────┘      │
+│                                                              │
+│   ⚠️ Servos should have SEPARATE power supply if available  │
+│   ⚠️ Common GND must be shared across ALL components         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🏗️ System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            ESP32 (IoT Controller)                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐   │
+│  │   DHT11     │  │  BMP280     │  │   WiFi      │  │  Web        │   │
+│  │  Sensor     │  │  Sensor     │  │  Connection │  │  Dashboard   │   │
+│  │ Temp/Hum    │  │ Pres/Alt   │  │             │  │   Server    │   │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘   │
+│                                   │                                       │
+│                          ┌────────┴────────┐                            │
+│                          │ Serial (9600)    │                            │
+│                          │ TX=GPIO17 RX=GPIO16                          │
+│                          │ (via 1kΩ+2kΩ divider)                       │
+│                          └────────┬────────┘                            │
+└──────────────────────────────────┼──────────────────────────────────────┘
+                                   │
+┌──────────────────────────────────┼──────────────────────────────────────┐
+│                         Arduino UNO (Main Controller)                      │
+├──────────────────────────────────┤                                       │
+│  ┌────────────────────────────────────────────────────────────────────┐ │
+│  │                     SENSORS                                          │ │
+│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────────┐│ │
+│  │  │  LDR TL  │ │  LDR TR  │ │  LDR BL  │ │  LDR BR  │ │  MQ Gas    ││ │
+│  │  │   (A0)   │ │   (A1)   │ │   (A2)   │ │   (A3)   │ │  Sensor    ││ │
+│  │  └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────────┘│ │
+│  │                                                                    │ │
+│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────────────────────┐│ │
+│  │  │  DHT11  │ │   Pot   │ │   I2C   │ │      Servos            ││ │
+│  │  │  DATA   │ │   (A5)  │ │   LCD   │ │   H (Pin9) V (Pin10)  ││ │
+│  │  └─────────┘ └─────────┘ └─────────┘ └─────────────────────────┘│ │
+│  └────────────────────────────────────────────────────────────────────┘ │
+│                                                                           │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐                                    │
+│  │ Encoder │ │  Button │ │ Rotary  │                                    │
+│  │ CLK→2   │ │   Pin4  │ │   Knob   │                                    │
+│  │ DT→3    │ │         │ │          │                                    │
+│  └─────────┘ └─────────┘ └─────────┘                                    │
+└───────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📦 Hardware Requirements
+
+### Power System
+| Component | Specification | Quantity |
+|-----------|---------------|----------|
+| 18650 Battery | 3.7V Li-ion | 2 |
+| DC-DC Boost Converter | 5V output | 1 |
+
+### Controllers
+| Component | Specification | Quantity |
+|-----------|---------------|----------|
+| Arduino Uno/Nano | Main controller | 1 |
+| ESP32 Dev Board | IoT/WiFi module | 1 |
+
+### Sensors
+| Component | Specification | Quantity |
+|-----------|---------------|----------|
+| LDR | GL5528 or similar | 4 |
+| DHT11 | Temperature & Humidity | 1 |
+| MQ Gas Sensor | MQ-2/3/4/5 series | 1 |
+| BMP280 | Pressure & Altitude (I2C) | 1 |
+
+### Actuators & Display
+| Component | Specification | Quantity |
+|-----------|---------------|----------|
+| Servo Motor | MG996R or similar | 2 |
+| 16x2 I2C LCD | Address 0x27 | 1 |
+| Rotary Encoder | With push button | 1 |
+
+### Passive Components
+| Component | Specification | Quantity |
+|-----------|---------------|----------|
+| 10kΩ Resistor | LDR pull-down | 4 |
+| 1kΩ Resistor | Voltage divider | 2 |
+| 2kΩ Resistor | Voltage divider | 2 |
+
+---
+
+## 🔌 Pin Connections
+
+### ESP32
+```
+GPIO 4    → DHT11 DATA
+GPIO 21   → BMP280 SDA (I2C)
+GPIO 22   → BMP280 SCL (I2C)
+GPIO 16   → Arduino TX (Serial2 RX)
+GPIO 17   → Arduino RX (Serial2 TX)
+           ⚠️ Use 1kΩ + 2kΩ voltage divider for 5V → 3.3V
+3.3V      → DHT11 VCC, BMP280 VCC
+GND       → Common Ground
+```
+
+### Arduino UNO
+```
+PWM OUTPUT PINS:
+Pin 9     → Servo Horizontal Signal
+Pin 10    → Servo Vertical Signal
+
+ANALOG INPUTS:
+A0        → LDR Top Left (via 10kΩ to GND)
+A1        → LDR Top Right (via 10kΩ to GND)
+A2        → LDR Bottom Left (via 10kΩ to GND)
+A3        → LDR Bottom Right (via 10kΩ to GND)
+A4        → LCD SDA (I2C)
+A5        → LCD SCL (I2C)
+A5        → Potentiometer Wiper (threshold adjustment)
+
+DIGITAL PINS:
+Pin 2     → Rotary Encoder CLK
+Pin 3     → Rotary Encoder DT
+Pin 4     → Push Button (INPUT_PULLUP)
+Pin 1     → ESP32 TX (via voltage divider)
+Pin 0     → ESP32 RX
+
+POWER:
+5V        → Servo VCC, LCD VCC, MQ Sensor VCC, Potentiometer VCC
+GND       → Common Ground (ALL components)
+```
+
+### MQ Gas Sensor
+```
+VCC       → 5V
+GND       → GND
+A0        → Arduino A6 (optional additional ADC)
+D0        → Digital output (threshold detection)
+```
+
+### LDR Connection Diagram
+```
+VCC ──────┬─────┬─────┬─────┐
+          │     │     │     │
+         LDR   LDR   LDR   LDR
+          │     │     │     │
+         A0    A1    A2    A3
+          │     │     │     │
+         10k   10k   10k   10k
+          │     │     │     │
+         GND   GND   GND   GND
+```
+
+---
+
+## 🔄 System Logic Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         OPERATIONAL FLOW                             │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  1. LDR SENSORS ──▶ Detect light direction                        │
+│         │                                                           │
+│         ▼                                                           │
+│  2. ARDUINO ────▶ Process light differential                        │
+│         │                                                           │
+│         ▼                                                           │
+│  3. SERVOS ─────▶ Move panel toward sun                            │
+│         │                                                           │
+│         ▼                                                           │
+│  4. SENSORS ────▶ Collect environment data                          │
+│     (DHT11 + MQ)                                                    │
+│         │                                                           │
+│         ▼                                                           │
+│  5. LCD ─────────▶ Display readings                                 │
+│         │                                                           │
+│         ▼                                                           │
+│  6. SERIAL ─────▶ Send data to ESP32                               │
+│         │                                                           │
+│         ▼                                                           │
+│  7. ESP32 ──────▶ Upload to web dashboard                          │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## 🌟 Features
 
 ### Hardware Control
 - **Dual Axis Tracking** - Independent horizontal (azimuth) and vertical (elevation) servo control
 - **LDR Sensor Array** - 4 Light Dependent Resistors for precise sun position detection
+- **MQ Gas Sensor** - Environmental air quality monitoring
+- **Potentiometer** - Manual threshold calibration
 - **Real-time Servo Feedback** - Position monitoring and smooth movement control
 - **EEPROM Storage** - Persistent home position and settings across reboots
 
 ### Web Dashboard (ESP32)
-- **Live Sensor Data** - Temperature, humidity, pressure, altitude
+- **Live Sensor Data** - Temperature, humidity, pressure, altitude, gas levels
 - **Solar Energy Analytics** - Irradiance, power output, energy generated, carbon savings
 - **OpenWeatherMap Integration** - Real-time weather conditions and forecasts
 - **Manual Control** - Adjust panel position from any browser
@@ -42,113 +276,7 @@ A professional-grade dual-axis solar tracking system with real-time web dashboar
 - **Axis Flip Option** - Compensate for LDR mounting orientation
 - **Angle Limits** - Configurable min/max positions
 - **Smooth Movement** - Configurable servo speed to protect mechanics
-
----
-
-## 🏗️ System Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         ESP32 (Main Controller)                      │
-├─────────────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐│
-│  │   DHT11     │  │  BMP280     │  │   WiFi      │  │  Web        ││
-│  │  Sensor     │  │  Sensor     │  │  Connection │  │  Dashboard  ││
-│  │  (Temp/Hum) │  │ (Pres/Alt)  │  │             │  │             ││
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘│
-│                              │                                      │
-│                    ┌─────────┴─────────┐                           │
-│                    │   Serial (9600)   │                           │
-│                    │   TX=RX17 RX=RX16  │                           │
-│                    └─────────┬─────────┘                           │
-└──────────────────────────────┼──────────────────────────────────────┘
-                               │
-┌──────────────────────────────┼──────────────────────────────────────┐
-│                         Arduino UNO (Motor Controller)               │
-├──────────────────────────────┤                                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐│
-│  │   Servo H   │  │   Servo V   │  │    LCD      │  │   Encoder   ││
-│  │  (Pin 9)    │  │  (Pin 10)   │  │   16x2      │  │   + Button  ││
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘│
-│                                                                     │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │                    LDR Sensor Array                           │ │
-│  │    [TL]────────────┐    [TR]                                  │ │
-│  │         Panel      │                                           │ │
-│  │    [BL]────────────┘    [BR]                                  │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📦 Hardware Requirements
-
-### ESP32 Side
-| Component | Quantity | Notes |
-|-----------|----------|-------|
-| ESP32 Dev Board | 1 | Any 30-pin or 38-pin variant |
-| DHT11 Sensor | 1 | Temperature & Humidity |
-| BMP280 Sensor | 1 | Pressure & Altitude (I2C 0x76) |
-| Jumper Wires | - | For connections |
-
-### Arduino UNO Side
-| Component | Quantity | Notes |
-|-----------|----------|-------|
-| Arduino UNO/Nano | 1 | Motor controller |
-| Servo Motor (MG996R) | 2 | Horizontal & Vertical axis |
-| LDR (Light Dependent Resistor) | 4 | GL5528 or similar |
-| 10kΩ Resistor | 4 | LDR pull-down |
-| 16x2 I2C LCD | 1 | Address 0x27 |
-| Rotary Encoder | 1 | With push button |
-| Push Button | 1 | Menu control |
-| Breadboard + Wires | - | Prototyping |
-
----
-
-## 🔌 Pin Connections
-
-### ESP32
-```
-GPIO 4   → DHT11 DATA
-GPIO 21  → BMP280 SDA (I2C)
-GPIO 22  → BMP280 SCL (I2C)
-GPIO 16  → Arduino UNO TX (Serial2)
-GPIO 17  → Arduino UNO RX (Serial2)
-         → Note: Use 1kΩ + 2kΩ voltage divider for 5V→3.3V
-3.3V     → DHT11 VCC, BMP280 VCC
-GND      → Common Ground
-```
-
-### Arduino UNO
-```
-Pin 9    → Servo Horizontal Signal
-Pin 10   → Servo Vertical Signal
-Pin 2    → Rotary Encoder CLK
-Pin 3    → Rotary Encoder DT
-Pin 4    → Push Button (INPUT_PULLUP)
-A0       → LDR Top Left (via 10kΩ to GND)
-A1       → LDR Top Right (via 10kΩ to GND)
-A2       → LDR Bottom Left (via 10kΩ to GND)
-A3       → LDR Bottom Right (via 10kΩ to GND)
-A4       → LCD SDA (I2C)
-A5       → LCD SCL (I2C)
-5V       → Servo VCC, LCD VCC
-GND      → Common Ground
-```
-
-### LDR Connection Diagram
-```
-VCC ──────┬─────┬─────┬─────┐
-          │     │     │     │
-         LDR   LDR   LDR   LDR
-          │     │     │     │
-         A0    A1    A2    A3
-          │     │     │     │
-         10k   10k   10k   10k
-          │     │     │     │
-         GND   GND   GND   GND
-```
+- **Gas Alert** - MQ sensor threshold monitoring
 
 ---
 
@@ -185,6 +313,9 @@ const char* OWM_API_KEY   = "your_api_key_here";
 // Adjust home position for your setup
 int homeH = 175;  // Horizontal home angle
 int homeV = 5;    // Vertical home angle
+
+// Gas sensor threshold (adjust via potentiometer or code)
+#define GAS_THRESHOLD 300
 ```
 
 ### Upload
@@ -234,6 +365,7 @@ int homeV = 5;    // Vertical home angle
 - Altitude (BMP280)
 - Heat Index calculation
 - Dew Point calculation
+- Gas concentration (MQ Sensor)
 
 ### Solar Energy Panel
 - Irradiance (W/m²)
@@ -277,6 +409,8 @@ int homeV = 5;    // Vertical home angle
 |------|-------------|
 | `LDR:512,520,480,490` | LDR sensor values |
 | `POS:90,45` | Current servo positions |
+| `GAS:350` | MQ gas sensor reading |
+| `TEMP:28.5,HUM:65,P:1013` | Environment data |
 | `LCD:Line1\|Line2` | LCD display content |
 | `WIFI:192.168.1.100` | WiFi connection status |
 
@@ -284,26 +418,42 @@ int homeV = 5;    // Vertical home angle
 
 ## 🛡️ Safety Guidelines
 
-> **⚠️ This project involves mechanical systems and electrical components.**
-> - Ensure proper servo motor power supply (5V, 2A+ recommended)
-> - Use voltage dividers for 5V to 3.3V level shifting
+> **⚠️ This project involves electrical systems and mechanical components.**
+>
+> ### Power Safety
+> - Use proper 18650 battery holders with protection circuits
+> - Ensure boost converter output is stable at 5V
+> - Never reverse battery polarity
+>
+> ### Electrical Safety
+> - Use voltage dividers for 5V to 3.3V level shifting (Arduino TX → ESP32 RX)
+> - Common GND must be shared across ALL components
+> - Servos should ideally have SEPARATE power supply (current spikes)
+>
+> ### Mechanical Safety
 > - Secure all connections to prevent accidental disconnects
 > - Keep moving parts away from children and pets
 > - Use appropriate enclosures for outdoor installations
+>
+> ### Battery Safety
+> - Use protected 18650 cells with built-in overcharge/overdischarge protection
+> - Never short circuit battery terminals
+> - Charge batteries in a safe location away from flammable materials
 
 ---
 
 ## 🔧 Troubleshooting
 
 | Problem | Solution |
-|---------|----------|
+|---------|---------|
 | ESP32 won't connect to WiFi | Check SSID/password, ensure 2.4GHz network |
 | LDR sensors not working | Verify 10kΩ resistors are connected to GND |
 | Servos not moving | Check power supply (needs 5V, 2A+), verify signal connections |
 | LCD not displaying | Check I2C address (default 0x27), adjust contrast potentiometer |
 | Web dashboard not loading | Verify ESP32 IP address, check WiFi connectivity |
-| Weather data not showing | Verify API key, check internet connection |
+| Gas sensor always shows high | Allow 24h warm-up time, check threshold potentiometer |
 | Serial communication failing | Use voltage divider for TX/RX lines (5V→3.3V) |
+| Batteries draining quickly | Add separate power for servos, check boost converter efficiency |
 
 ---
 
@@ -311,10 +461,10 @@ int homeV = 5;    // Vertical home angle
 
 ```
 solar-tracker/
-├── esp32_solar_tracker.ino    # ESP32 main controller
-├── arduino_solar_tracker.ino  # Arduino motor controller
-├── README.md                   # This file
-└── LICENSE                     # MIT License
+├── esp32_solar_tracker.ino     # ESP32 IoT controller
+├── arduino_solar_tracker.ino    # Arduino main controller
+├── README.md                    # Documentation
+└── LICENSE                      # MIT License
 ```
 
 ---
@@ -343,6 +493,8 @@ The system calculates various solar metrics:
 - [ ] GPS module for automatic location
 - [ ] Mobile app notification alerts
 - [ ] Solar angle calculations based on date/time
+- [ ] Battery level monitoring
+- [ ] Automatic sleep/wake cycles
 
 ---
 

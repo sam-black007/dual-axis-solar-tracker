@@ -8,9 +8,11 @@
  * Features:
  * - Dual servo control for horizontal and vertical axis
  * - LDR sensor array for sun tracking
+ * - MQ gas sensor for air quality monitoring
  * - 16x2 I2C LCD display
  * - Rotary encoder for manual control
  * - Physical button for menu navigation
+ * - Potentiometer for threshold calibration
  * - Serial communication with ESP32
  * 
  * Developed by: K M Sri Hari
@@ -35,6 +37,8 @@
  * - LDR TR → A1
  * - LDR BL → A2
  * - LDR BR → A3
+ * - MQ Gas Sensor → A6
+ * - Potentiometer → A7
  * - LCD 16x2 I2C (0x27) → SDA=A4, SCL=A5
  * ================================================================
  */
@@ -55,6 +59,8 @@
 #define LDR_BR        A3
 #define SERVO_H_PIN   9
 #define SERVO_V_PIN   10
+#define GAS_SENSOR    A6
+#define POT_PIN       A7
 
 // ================================================================
 // HARDWARE INITIALIZATION
@@ -107,6 +113,8 @@ float sensorTemp = 0;
 float sensorHum = 0;
 float sensorPres = 0;
 float sensorIrr = 0;
+int   gasValue = 0;
+int   gasThreshold = 300;
 
 char wifiIP[20] = "No WiFi";
 char wifiStatus[4] = "---";
@@ -383,6 +391,30 @@ void runLDRTracking() {
         Serial.print(',');
         Serial.println(rawBR);
     }
+}
+
+// ================================================================
+// GAS SENSOR & POTENTIOMETER
+// ================================================================
+unsigned long gasReadTimer = 0;
+#define GAS_READ_INTERVAL_MS  1000
+
+void readGasSensor() {
+    if (millis() - gasReadTimer < GAS_READ_INTERVAL_MS) return;
+    gasReadTimer = millis();
+    
+    // Read MQ gas sensor
+    gasValue = analogRead(GAS_SENSOR);
+    
+    // Read potentiometer for threshold adjustment
+    int potValue = analogRead(POT_PIN);
+    gasThreshold = map(potValue, 0, 1023, 100, 500);
+    
+    // Send gas data to ESP32
+    Serial.print("GAS:");
+    Serial.print(gasValue);
+    Serial.print(',');
+    Serial.println(gasThreshold);
 }
 
 // ================================================================
@@ -1038,6 +1070,9 @@ void loop() {
     
     // Smooth servo movement
     smoothServoMove();
+    
+    // Read gas sensor and potentiometer
+    readGasSensor();
     
     // Run based on current mode
     switch (currentMode) {
