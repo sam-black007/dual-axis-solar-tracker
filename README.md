@@ -8,6 +8,15 @@ A professional-grade dual-axis solar tracking system with real-time web dashboar
 
 ---
 
+## 👥 Team
+
+| Contributor | Role | GitHub |
+|-------------|------|--------|
+| **Sam Joseph** | Software Development, UX/UI Design, ESP32 Coding | [@sam-black007](https://github.com/sam-black007) |
+| **K M Sri Hari** | Hardware Design, Circuit Implementation, Arduino UNO Coding | [@kmsrihari123](https://github.com/kmsrihari123) |
+
+---
+
 ## 🌟 Features
 
 ### Hardware Control
@@ -343,10 +352,12 @@ This project is released under the MIT License - see [LICENSE](LICENSE) file for
 
 ---
 
-## 👤 Author
+## 👥 Authors
 
-**Sam Joseph**  
-ESP32 + Arduino Project
+| Name | GitHub | Contributions |
+|------|--------|---------------|
+| **Sam Joseph** | [@sam-black007](https://github.com/sam-black007) | Software Development, ESP32 Coding, Web Dashboard UX/UI |
+| **K M Sri Hari** | [@kmsrihari123](https://github.com/kmsrihari123) | Hardware Design, Circuit Implementation, Arduino UNO Coding |
 
 ---
 
