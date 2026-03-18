@@ -3,7 +3,8 @@
 A professional-grade dual-axis solar tracking system with real-time web dashboard, weather integration, and solar energy analytics. Tracks the sun throughout the day to maximize solar panel efficiency.
 
 ![Project Status](https://img.shields.io/badge/Status-Active-brightgreen)
-![Platform](https://img.shields.io/badge/Platform-ESP32%20+%20Arduino-brightblue)
+![Platform](https://img.shields.io/badge/Platform-ESP32%20+%20Arduino%20(C++)-brightblue)
+![Web](https://img.shields.io/badge/Web-ESP32%20WebServer%20(HTML/CSS/JS)-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
@@ -214,15 +215,78 @@ VCC ──────┬─────┬─────┬─────┐
 
 ## 💻 Technologies Used
 
+### Complete Tech Stack
+
+| Layer | Technology | Purpose | Location |
+|-------|------------|---------|----------|
+| **Hardware** | ESP32 + Arduino UNO | Dual-controller system | Physical hardware |
+| **Firmware** | C++ (Arduino) | Servo control, LDR tracking, LCD | Both boards |
+| **Web Server** | C++ (ESP32) | Hosts web dashboard internally | ESP32 memory |
+| **Frontend** | HTML + CSS + JavaScript | Web dashboard UI | Embedded in ESP32 |
+| **Communication** | Serial (UART) | Arduino ↔ ESP32 data exchange | Wire connection |
+
+### How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         ESP32 (IoT Controller)                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │  📦 Embedded in ESP32 Flash Memory                     │   │
+│   │                                                          │   │
+│   │  ┌─────────┐  ┌─────────┐  ┌─────────┐              │   │
+│   │  │   C++   │  │  HTML   │  │   CSS   │              │   │
+│   │  │WebServer│  │   UI    │  │ Styles  │              │   │
+│   │  └─────────┘  └─────────┘  └─────────┘              │   │
+│   │        │            │            │                     │   │
+│   │        └────────────┼────────────┘                     │   │
+│   │                     │                                  │   │
+│   │              ┌──────▼──────┐                         │   │
+│   │              │   Browser    │                         │   │
+│   │              │  Dashboard  │                         │   │
+│   │              └─────────────┘                         │   │
+│   └─────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│   🌐 Access via: http://<ESP32_IP>                             │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+                           │ Serial
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Arduino UNO (Motor Controller)               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │  📦 C++ Firmware                                          │   │
+│   │                                                          │   │
+│   │  • LDR Sun Tracking Algorithm                            │   │
+│   │  • Servo Motor Control                                   │   │
+│   │  • LCD Menu System                                       │   │
+│   │  • Encoder Input Handling                               │   │
+│   │                                                          │   │
+│   └─────────────────────────────────────────────────────────┘   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
 ### Why This Tech Stack?
 
 | Technology | Why We Used It | Alternative |
 |------------|----------------|--------------|
-| **ESP32** | Built-in WiFi, Dual-core, WebServer capability, More analog pins than typical MCUs | Raspberry Pi Pico W (more expensive) |
-| **Arduino UNO** | Precise PWM for servos, More stable timing for real-time control, 6+ analog inputs for sensors | ESP32 alone (but lacks stable PWM timing) |
-| **C++ (Arduino)** | Best for hardware-level control, Direct register access, Low memory footprint | Python (too slow for real-time servo control) |
-| **HTML/CSS/JS** | Embedded in ESP32, No separate hosting needed, Works on any device with browser | React/Vue (too heavy for ESP32) |
-| **DHT11 + BMP280** | Low cost, Reliable, Well-documented libraries | BME280 (more expensive) |
+| **ESP32** | Built-in WiFi, Dual-core processor, Can host web server, Flash memory for HTML/CSS/JS | Raspberry Pi Pico W (more expensive, higher power) |
+| **Arduino UNO** | Precise PWM for servos, Stable real-time timing, 6+ analog inputs | ESP32 alone (but servo timing is less stable) |
+| **C++ (Arduino)** | Best for hardware control, Direct register access, Low memory usage, Fast execution | Python (too slow for real-time servo control) |
+| **HTML/CSS/JS** | Embedded directly in ESP32 flash, No external server needed, Works on any browser/device | React/Vue (too heavy for embedded systems) |
+| **Web Dashboard** | Runs ON the ESP32 itself, Access from any device on WiFi, No app installation needed | Native mobile app (more development effort) |
+
+### No Python Required! 
+
+The entire system runs on **C++ firmware**:
+- ESP32: Web server + HTML dashboard + WiFi
+- Arduino: Motor control + Sensors
+
+Python would be **too slow** for real-time servo control and requires more memory than embedded MCUs have.
 
 ### Architecture Decision: Why Two Boards?
 
@@ -236,7 +300,18 @@ VCC ──────┬─────┬─────┬─────┐
 │  ├─────────────────────┤    ├─────────────────────┤           │
 │  │ ✗ Only 1 ADC pin   │    │ ✗ No WiFi built-in │           │
 │  │ ✗ PWM timing issues│    │ ✗ Can't host web   │           │
-│  │ ✗ I2C conflicts   │    │ ✗ Limited memory   │           │
+│  │ ✗ Complex servo lib│    │ ✗ Limited memory   │           │
+│  └─────────────────────┘    └─────────────────────┘           │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────┐       │
+│  │              ESP32 + ARDUINO (OUR SOLUTION)         │       │
+│  ├─────────────────────────────────────────────────────┤       │
+│  │ ✓ ESP32: WiFi, Web Server, Weather APIs, Dashboard  │       │
+│  │ ✓ Arduino: Precise servo control, More ADC pins    │       │
+│  │ ✓ Best of both worlds                              │       │
+│  └─────────────────────────────────────────────────────┘       │
+└─────────────────────────────────────────────────────────────────┘
+```
 │  └─────────────────────┘    └─────────────────────┘           │
 │                                                                  │
 │  ┌─────────────────────────────────────────────────────┐       │
