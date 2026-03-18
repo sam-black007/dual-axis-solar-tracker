@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0f1e"/>
+      <stop offset="100%" style="stop-color:#1a2a4a"/>
+    </linearGradient>
+    <linearGradient id="batteryGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff88"/>
+      <stop offset="100%" style="stop-color:#00aa55"/>
+    </linearGradient>
+    <linearGradient id="boostGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffaa00"/>
+      <stop offset="100%" style="stop-color:#cc8800"/>
+    </linearGradient>
+    <linearGradient id="arduinoGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00979d"/>
+      <stop offset="100%" style="stop-color:#007a82"/>
+    </linearGradient>
+    <linearGradient id="espGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff"/>
+      <stop offset="100%" style="stop-color:#0099cc"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bgGrad2)"/>
+  
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#ffaa00" font-family="Arial Black" font-size="28" font-weight="bold">⚡ POWER ARCHITECTURE</text>
+  
+  <!-- Battery Pack -->
+  <rect x="50" y="100" width="200" height="180" rx="15" fill="#0a1628" stroke="#00ff88" stroke-width="3"/>
+  <rect x="50" y="100" width="200" height="45" rx="15" fill="url(#batteryGrad)"/>
+  <text x="150" y="130" text-anchor="middle" fill="#000" font-family="Arial" font-size="16" font-weight="bold">🔋 BATTERY PACK</text>
+  
+  <!-- Battery Cells -->
+  <rect x="70" y="160" width="60" height="100" rx="5" fill="#1a3a5c" stroke="#00ff88" stroke-width="2"/>
+  <text x="100" y="200" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">18650</text>
+  <text x="100" y="218" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">3.7V</text>
+  <text x="100" y="236" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">7.4V</text>
+  <text x="100" y="250" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">(Series)</text>
+  
+  <rect x="170" y="160" width="60" height="100" rx="5" fill="#1a3a5c" stroke="#00ff88" stroke-width="2"/>
+  <text x="200" y="200" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">18650</text>
+  <text x="200" y="218" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">3.7V</text>
+  <text x="200" y="236" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Backup</text>
+  
+  <!-- Arrow to Boost Converter -->
+  <line x1="150" y1="280" x2="150" y2="330" stroke="#ffaa00" stroke-width="4" filter="url(#glow2)"/>
+  <polygon points="150,340 140,315 160,315" fill="#ffaa00"/>
+  
+  <!-- Boost Converter -->
+  <rect x="50" y="350" width="200" height="140" rx="15" fill="#0a1628" stroke="#ffaa00" stroke-width="3"/>
+  <rect x="50" y="350" width="200" height="45" rx="15" fill="url(#boostGrad)"/>
+  <text x="150" y="380" text-anchor="middle" fill="#000" font-family="Arial" font-size="16" font-weight="bold">⚡ BOOST CONVERTER</text>
+  
+  <rect x="70" y="410" width="160" height="60" rx="8" fill="#1a3a5c" stroke="#ffaa00" stroke-width="2"/>
+  <text x="150" y="435" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="14">DC-DC Step-Up</text>
+  <text x="150" y="455" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="18" font-weight="bold">5V OUTPUT</text>
+  <text x="150" y="472" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">2A+ Current</text>
+  
+  <!-- Distribution Lines -->
+  <line x1="250" y1="420" x2="350" y2="420" stroke="#ffaa00" stroke-width="4" filter="url(#glow2)"/>
+  <line x1="350" y1="420" x2="450" y2="420" stroke="#ffaa00" stroke-width="4" filter="url(#glow2)"/>
+  <line x1="450" y1="420" x2="550" y2="420" stroke="#ffaa00" stroke-width="4" filter="url(#glow2)"/>
+  
+  <!-- Junction Circles -->
+  <circle cx="350" cy="420" r="8" fill="#ffaa00"/>
+  <circle cx="450" cy="420" r="8" fill="#ffaa00"/>
+  <circle cx="550" cy="420" r="8" fill="#ffaa00"/>
+  
+  <!-- Arduino UNO -->
+  <rect x="580" y="300" width="260" height="240" rx="15" fill="#0a1628" stroke="#00979d" stroke-width="3"/>
+  <rect x="580" y="300" width="260" height="45" rx="15" fill="url(#arduinoGrad2)"/>
+  <text x="710" y="330" text-anchor="middle" fill="#000" font-family="Arial" font-size="16" font-weight="bold">Arduino UNO</text>
+  
+  <rect x="600" y="360" width="220" height="160" rx="8" fill="#1a3a5c" stroke="#00979d" stroke-width="2"/>
+  <text x="710" y="390" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">✓ Servo Motors (Pin 9, 10)</text>
+  <text x="710" y="415" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">✓ LCD Display (I2C)</text>
+  <text x="710" y="440" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">✓ LDR Sensors (A0-A3)</text>
+  <text x="710" y="465" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">✓ Encoder (Pin 2, 3)</text>
+  <text x="710" y="490" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="11">📍 VIN / 5V Pin</text>
+  <text x="710" y="508" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">2A recommended</text>
+  
+  <!-- ESP32 -->
+  <rect x="580" y="100" width="260" height="140" rx="15" fill="#0a1628" stroke="#00d4ff" stroke-width="3"/>
+  <rect x="580" y="100" width="260" height="45" rx="15" fill="url(#espGrad2)"/>
+  <text x="710" y="130" text-anchor="middle" fill="#000" font-family="Arial" font-size="16" font-weight="bold">ESP32 Dev Board</text>
+  
+  <rect x="600" y="160" width="220" height="60" rx="8" fill="#1a3a5c" stroke="#00d4ff" stroke-width="2"/>
+  <text x="710" y="185" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">✓ DHT11 Sensor</text>
+  <text x="710" y="205" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12">✓ BMP280 Sensor</text>
+  <text x="710" y="222" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="11">📍 VIN / 5V Pin</text>
+  
+  <!-- ESP32 to Arduino Connection -->
+  <line x1="710" y1="260" x2="710" y2="300" stroke="#a855f7" stroke-width="3" stroke-dasharray="5,5"/>
+  <text x="750" y="280" fill="#a855f7" font-family="Arial" font-size="11">Serial</text>
+  
+  <!-- GND Connection -->
+  <line x1="100" y1="490" x2="710" y2="490" stroke="#ff4455" stroke-width="4" filter="url(#glow2)"/>
+  <text x="400" y="485" text-anchor="middle" fill="#ff4455" font-family="Arial" font-size="14" font-weight="bold">COMMON GND</text>
+  
+  <!-- Warning Box -->
+  <rect x="50" y="560" width="800" height="120" rx="15" fill="#1a0a0a" stroke="#ff4455" stroke-width="3"/>
+  <text x="450" y="590" text-anchor="middle" fill="#ff4455" font-family="Arial" font-size="18" font-weight="bold">⚠️ IMPORTANT SAFETY NOTES</text>
+  
+  <text x="80" y="620" fill="#ffaa00" font-family="Arial" font-size="12">1. Use protected 18650 cells with PCB protection</text>
+  <text x="80" y="645" fill="#ffaa00" font-family="Arial" font-size="12">2. Servos draw high current - use SEPARATE 5V supply if available</text>
+  <text x="80" y="665" fill="#ffaa00" font-family="Arial" font-size="12">3. Common GND is REQUIRED between all components</text>
+  
+  <!-- Voltage Labels -->
+  <text x="150" y="560" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="14" font-weight="bold">7.4V</text>
+  <text x="150" y="510" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="14" font-weight="bold">5V @ 2A+</text>
+  <text x="710" y="560" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="12">ESP32</text>
+  <text x="710" y="560" text-anchor="middle" fill="#00979d" font-family="Arial" font-size="12">Arduino</text>
+  
+  <!-- Footer -->
+  <text x="450" y="685" text-anchor="middle" fill="#4a6a8a" font-family="Arial" font-size="12">github.com/sam-black007/dual-axis-solar-tracker</text>
+</svg>

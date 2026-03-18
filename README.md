@@ -43,28 +43,7 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 
 ## ⚡ Power Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    POWER DISTRIBUTION                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│   ┌──────────────┐      ┌─────────────────┐                │
-│   │  18650 × 2  │──────│  Boost Converter │                │
-│   │  (Battery)  │      │    (5V Output)   │                │
-│   └──────────────┘      └────────┬────────┘                │
-│                                  │                          │
-│                    ┌─────────────┼─────────────┐            │
-│                    │             │             │            │
-│                    ▼             ▼             ▼            │
-│              ┌──────────┐ ┌──────────┐ ┌──────────┐      │
-│              │  Arduino │ │   ESP32  │ │  Sensors │      │
-│              │   Uno    │ │          │ │  + LCD   │      │
-│              └──────────┘ └──────────┘ └──────────┘      │
-│                                                              │
-│   ⚠️ Servos should have SEPARATE power supply if available  │
-│   ⚠️ Common GND must be shared across ALL components       │
-└─────────────────────────────────────────────────────────────┘
-```
+![Power Architecture](images/power_architecture.svg)
 
 ---
 
