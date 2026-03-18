@@ -1,6 +1,6 @@
 # ☀️ Dual Axis Solar Tracker Pro
 
-A professional-grade dual-axis solar tracking system with real-time web dashboard, weather integration, solar energy analytics, and environmental monitoring. Tracks the sun throughout the day to maximize solar panel efficiency while monitoring environmental conditions.
+A professional-grade dual-axis solar tracking system with real-time web dashboard, weather integration, and solar energy analytics. Tracks the sun throughout the day to maximize solar panel efficiency.
 
 ![Project Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Platform](https://img.shields.io/badge/Platform-ESP32%20+%20Arduino-brightblue)
@@ -32,7 +32,6 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 |--------|---------|
 | **4× LDR Sensors** | Light sensing for solar tracking |
 | **DHT11** | Temperature & Humidity monitoring |
-| **MQ Gas Sensor** | Air quality / Gas detection |
 | **BMP280** | Pressure & Altitude (via ESP32) |
 
 ### Power System
@@ -50,8 +49,8 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │   ┌──────────────┐      ┌─────────────────┐                │
-│   │  18650 × 2   │──────│  Boost Converter │                │
-│   │  (Battery)   │      │    (5V Output)    │                │
+│   │  18650 × 2  │──────│  Boost Converter │                │
+│   │  (Battery)  │      │    (5V Output)   │                │
 │   └──────────────┘      └────────┬────────┘                │
 │                                  │                          │
 │                    ┌─────────────┼─────────────┐            │
@@ -63,7 +62,7 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 │              └──────────┘ └──────────┘ └──────────┘      │
 │                                                              │
 │   ⚠️ Servos should have SEPARATE power supply if available  │
-│   ⚠️ Common GND must be shared across ALL components         │
+│   ⚠️ Common GND must be shared across ALL components       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -71,46 +70,13 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 
 ## 🏗️ System Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            ESP32 (IoT Controller)                            │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐   │
-│  │   DHT11     │  │  BMP280     │  │   WiFi      │  │  Web        │   │
-│  │  Sensor     │  │  Sensor     │  │  Connection │  │  Dashboard   │   │
-│  │ Temp/Hum    │  │ Pres/Alt   │  │             │  │   Server    │   │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘   │
-│                                   │                                       │
-│                          ┌────────┴────────┐                            │
-│                          │ Serial (9600)    │                            │
-│                          │ TX=GPIO17 RX=GPIO16                          │
-│                          │ (via 1kΩ+2kΩ divider)                       │
-│                          └────────┬────────┘                            │
-└──────────────────────────────────┼──────────────────────────────────────┘
-                                   │
-┌──────────────────────────────────┼──────────────────────────────────────┐
-│                         Arduino UNO (Main Controller)                      │
-├──────────────────────────────────┤                                       │
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │                     SENSORS                                          │ │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────────┐│ │
-│  │  │  LDR TL  │ │  LDR TR  │ │  LDR BL  │ │  LDR BR  │ │  MQ Gas    ││ │
-│  │  │   (A0)   │ │   (A1)   │ │   (A2)   │ │   (A3)   │ │  Sensor    ││ │
-│  │  └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────────┘│ │
-│  │                                                                    │ │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────────────────────┐│ │
-│  │  │  DHT11  │ │   Pot   │ │   I2C   │ │      Servos            ││ │
-│  │  │  DATA   │ │   (A5)  │ │   LCD   │ │   H (Pin9) V (Pin10)  ││ │
-│  │  └─────────┘ └─────────┘ └─────────┘ └─────────────────────────┘│ │
-│  └────────────────────────────────────────────────────────────────────┘ │
-│                                                                           │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐                                    │
-│  │ Encoder │ │  Button │ │ Rotary  │                                    │
-│  │ CLK→2   │ │   Pin4  │ │   Knob   │                                    │
-│  │ DT→3    │ │         │ │          │                                    │
-│  └─────────┘ └─────────┘ └─────────┘                                    │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+![System Architecture](images/system_architecture.png)
+
+---
+
+## 🔌 Circuit Diagram
+
+![Circuit Diagram](images/circuit_diagram.png)
 
 ---
 
@@ -133,7 +99,6 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 |-----------|---------------|----------|
 | LDR | GL5528 or similar | 4 |
 | DHT11 | Temperature & Humidity | 1 |
-| MQ Gas Sensor | MQ-2/3/4/5 series | 1 |
 | BMP280 | Pressure & Altitude (I2C) | 1 |
 
 ### Actuators & Display
@@ -179,7 +144,6 @@ A2        → LDR Bottom Left (via 10kΩ to GND)
 A3        → LDR Bottom Right (via 10kΩ to GND)
 A4        → LCD SDA (I2C)
 A5        → LCD SCL (I2C)
-A5        → Potentiometer Wiper (threshold adjustment)
 
 DIGITAL PINS:
 Pin 2     → Rotary Encoder CLK
@@ -189,16 +153,8 @@ Pin 1     → ESP32 TX (via voltage divider)
 Pin 0     → ESP32 RX
 
 POWER:
-5V        → Servo VCC, LCD VCC, MQ Sensor VCC, Potentiometer VCC
+5V        → Servo VCC, LCD VCC
 GND       → Common Ground (ALL components)
-```
-
-### MQ Gas Sensor
-```
-VCC       → 5V
-GND       → GND
-A0        → Arduino A6 (optional additional ADC)
-D0        → Digital output (threshold detection)
 ```
 
 ### LDR Connection Diagram
@@ -226,20 +182,20 @@ VCC ──────┬─────┬─────┬─────┐
 │  1. LDR SENSORS ──▶ Detect light direction                        │
 │         │                                                           │
 │         ▼                                                           │
-│  2. ARDUINO ────▶ Process light differential                        │
+│  2. ARDUINO ────▶ Process light differential                      │
 │         │                                                           │
 │         ▼                                                           │
 │  3. SERVOS ─────▶ Move panel toward sun                            │
 │         │                                                           │
 │         ▼                                                           │
 │  4. SENSORS ────▶ Collect environment data                          │
-│     (DHT11 + MQ)                                                    │
+│     (DHT11)                                                        │
 │         │                                                           │
 │         ▼                                                           │
 │  5. LCD ─────────▶ Display readings                                 │
 │         │                                                           │
 │         ▼                                                           │
-│  6. SERIAL ─────▶ Send data to ESP32                               │
+│  6. SERIAL ─────▶ Send data to ESP32                              │
 │         │                                                           │
 │         ▼                                                           │
 │  7. ESP32 ──────▶ Upload to web dashboard                          │
@@ -254,13 +210,11 @@ VCC ──────┬─────┬─────┬─────┐
 ### Hardware Control
 - **Dual Axis Tracking** - Independent horizontal (azimuth) and vertical (elevation) servo control
 - **LDR Sensor Array** - 4 Light Dependent Resistors for precise sun position detection
-- **MQ Gas Sensor** - Environmental air quality monitoring
-- **Potentiometer** - Manual threshold calibration
 - **Real-time Servo Feedback** - Position monitoring and smooth movement control
 - **EEPROM Storage** - Persistent home position and settings across reboots
 
 ### Web Dashboard (ESP32)
-- **Live Sensor Data** - Temperature, humidity, pressure, altitude, gas levels
+- **Live Sensor Data** - Temperature, humidity, pressure, altitude
 - **Solar Energy Analytics** - Irradiance, power output, energy generated, carbon savings
 - **OpenWeatherMap Integration** - Real-time weather conditions and forecasts
 - **Manual Control** - Adjust panel position from any browser
@@ -276,7 +230,45 @@ VCC ──────┬─────┬─────┬─────┐
 - **Axis Flip Option** - Compensate for LDR mounting orientation
 - **Angle Limits** - Configurable min/max positions
 - **Smooth Movement** - Configurable servo speed to protect mechanics
-- **Gas Alert** - MQ sensor threshold monitoring
+
+---
+
+## 💻 Technologies Used
+
+### Why This Tech Stack?
+
+| Technology | Why We Used It | Alternative |
+|------------|----------------|--------------|
+| **ESP32** | Built-in WiFi, Dual-core, WebServer capability, More analog pins than typical MCUs | Raspberry Pi Pico W (more expensive) |
+| **Arduino UNO** | Precise PWM for servos, More stable timing for real-time control, 6+ analog inputs for sensors | ESP32 alone (but lacks stable PWM timing) |
+| **C++ (Arduino)** | Best for hardware-level control, Direct register access, Low memory footprint | Python (too slow for real-time servo control) |
+| **HTML/CSS/JS** | Embedded in ESP32, No separate hosting needed, Works on any device with browser | React/Vue (too heavy for ESP32) |
+| **DHT11 + BMP280** | Low cost, Reliable, Well-documented libraries | BME280 (more expensive) |
+
+### Architecture Decision: Why Two Boards?
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              WHY ESP32 + ARDUINO (NOT ONE BOARD)?                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌─────────────────────┐    ┌─────────────────────┐           │
+│  │     ESP32 ALONE     │    │    ARDUINO ALONE    │           │
+│  ├─────────────────────┤    ├─────────────────────┤           │
+│  │ ✗ Only 1 ADC pin   │    │ ✗ No WiFi built-in │           │
+│  │ ✗ PWM timing issues│    │ ✗ Can't host web   │           │
+│  │ ✗ I2C conflicts   │    │ ✗ Limited memory   │           │
+│  └─────────────────────┘    └─────────────────────┘           │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────┐       │
+│  │              ESP32 + ARDUINO (OUR SOLUTION)         │       │
+│  ├─────────────────────────────────────────────────────┤       │
+│  │ ✓ ESP32: WiFi, Web Server, Weather APIs, Dashboard  │       │
+│  │ ✓ Arduino: Precise servo control, More ADC pins    │       │
+│  │ ✓ Best of both worlds                              │       │
+│  └─────────────────────────────────────────────────────┘       │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -313,9 +305,6 @@ const char* OWM_API_KEY   = "your_api_key_here";
 // Adjust home position for your setup
 int homeH = 175;  // Horizontal home angle
 int homeV = 5;    // Vertical home angle
-
-// Gas sensor threshold (adjust via potentiometer or code)
-#define GAS_THRESHOLD 300
 ```
 
 ### Upload
@@ -365,7 +354,6 @@ int homeV = 5;    // Vertical home angle
 - Altitude (BMP280)
 - Heat Index calculation
 - Dew Point calculation
-- Gas concentration (MQ Sensor)
 
 ### Solar Energy Panel
 - Irradiance (W/m²)
@@ -409,7 +397,6 @@ int homeV = 5;    // Vertical home angle
 |------|-------------|
 | `LDR:512,520,480,490` | LDR sensor values |
 | `POS:90,45` | Current servo positions |
-| `GAS:350` | MQ gas sensor reading |
 | `TEMP:28.5,HUM:65,P:1013` | Environment data |
 | `LCD:Line1\|Line2` | LCD display content |
 | `WIFI:192.168.1.100` | WiFi connection status |
@@ -451,7 +438,6 @@ int homeV = 5;    // Vertical home angle
 | Servos not moving | Check power supply (needs 5V, 2A+), verify signal connections |
 | LCD not displaying | Check I2C address (default 0x27), adjust contrast potentiometer |
 | Web dashboard not loading | Verify ESP32 IP address, check WiFi connectivity |
-| Gas sensor always shows high | Allow 24h warm-up time, check threshold potentiometer |
 | Serial communication failing | Use voltage divider for TX/RX lines (5V→3.3V) |
 | Batteries draining quickly | Add separate power for servos, check boost converter efficiency |
 
@@ -461,8 +447,11 @@ int homeV = 5;    // Vertical home angle
 
 ```
 solar-tracker/
-├── esp32_solar_tracker.ino     # ESP32 IoT controller
-├── arduino_solar_tracker.ino    # Arduino main controller
+├── esp32_solar_tracker.ino     # ESP32 IoT controller (Web dashboard, WiFi, APIs)
+├── arduino_solar_tracker.ino   # Arduino motor controller (Servos, LDR, LCD)
+├── images/
+│   ├── system_architecture.png  # System architecture diagram
+│   └── circuit_diagram.png      # Circuit wiring diagram
 ├── README.md                    # Documentation
 └── LICENSE                      # MIT License
 ```
