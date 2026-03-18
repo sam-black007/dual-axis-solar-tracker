@@ -2,6 +2,9 @@
  * ================================================================
  * DUAL AXIS SOLAR TRACKER - ESP32 MAIN CONTROLLER
  * ================================================================
+ * 
+ * Project by: Sam Joseph (@sam-black007) & K M Sri Hari (@kmsrihari123)
+ * 
  * Features:
  * - Web Dashboard with real-time monitoring
  * - DHT11 Temperature & Humidity sensor
@@ -9,6 +12,11 @@
  * - OpenWeatherMap API integration
  * - Solar energy calculations
  * - Serial communication with Arduino UNO
+ * 
+ * Developed by: Sam Joseph
+ * - Software Architecture
+ * - Web Dashboard Design & Implementation
+ * - ESP32 Programming
  * 
  * Required Libraries:
  * - WiFi, WebServer, HTTPClient (ESP32 core - built-in)

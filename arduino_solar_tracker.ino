@@ -2,6 +2,9 @@
  * ================================================================
  * DUAL AXIS SOLAR TRACKER - Arduino UNO Controller
  * ================================================================
+ * 
+ * Project by: Sam Joseph (@sam-black007) & K M Sri Hari (@kmsrihari123)
+ * 
  * Features:
  * - Dual servo control for horizontal and vertical axis
  * - LDR sensor array for sun tracking
@@ -9,6 +12,11 @@
  * - Rotary encoder for manual control
  * - Physical button for menu navigation
  * - Serial communication with ESP32
+ * 
+ * Developed by: K M Sri Hari
+ * - Hardware Design & Circuit Implementation
+ * - Arduino UNO Motor Controller Programming
+ * - LDR Sensor Integration
  * 
  * Required Libraries:
  * - Servo (built-in)
