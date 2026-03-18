@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0f1e"/>
+      <stop offset="100%" style="stop-color:#1a2a4a"/>
+    </linearGradient>
+    <linearGradient id="espGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff"/>
+      <stop offset="100%" style="stop-color:#0099cc"/>
+    </linearGradient>
+    <linearGradient id="arduinoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00979d"/>
+      <stop offset="100%" style="stop-color:#007a82"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bgGrad)"/>
+  
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" fill="#00d4ff" font-family="Arial Black" font-size="32" font-weight="bold">SOLAR TRACKER PRO - SYSTEM ARCHITECTURE</text>
+  
+  <!-- Connection Lines -->
+  <line x1="600" y1="380" x2="600" y2="420" stroke="#ffaa00" stroke-width="3" stroke-dasharray="5,5"/>
+  <line x1="600" y1="420" x2="600" y2="460" stroke="#ffaa00" stroke-width="3" stroke-dasharray="5,5"/>
+  
+  <!-- ESP32 Box -->
+  <rect x="350" y="120" width="500" height="240" rx="15" fill="#0a1628" stroke="#00d4ff" stroke-width="3"/>
+  <rect x="350" y="120" width="500" height="40" rx="15" fill="url(#espGrad)"/>
+  <text x="600" y="148" text-anchor="middle" fill="#000" font-family="Arial" font-size="20" font-weight="bold">ESP32 (IoT Controller)</text>
+  
+  <!-- ESP32 Components -->
+  <rect x="380" y="180" width="130" height="80" rx="8" fill="#1a3a5c" stroke="#00d4ff" stroke-width="2"/>
+  <text x="445" y="210" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="12">🌡️ DHT11</text>
+  <text x="445" y="230" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Temp/Humidity</text>
+  
+  <rect x="530" y="180" width="130" height="80" rx="8" fill="#1a3a5c" stroke="#00d4ff" stroke-width="2"/>
+  <text x="595" y="210" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="12">📊 BMP280</text>
+  <text x="595" y="230" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Pressure/Alt</text>
+  
+  <rect x="680" y="180" width="130" height="80" rx="8" fill="#1a3a5c" stroke="#00d4ff" stroke-width="2"/>
+  <text x="745" y="210" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="12">📶 WiFi</text>
+  <text x="745" y="230" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Connection</text>
+  
+  <rect x="380" y="280" width="130" height="60" rx="8" fill="#1a3a5c" stroke="#00d4ff" stroke-width="2"/>
+  <text x="445" y="305" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="12">🌐 Web Server</text>
+  <text x="445" y="325" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Dashboard</text>
+  
+  <rect x="530" y="280" width="130" height="60" rx="8" fill="#1a3a5c" stroke="#00d4ff" stroke-width="2"/>
+  <text x="595" y="305" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="12">☁️ APIs</text>
+  <text x="595" y="325" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Weather</text>
+  
+  <rect x="680" y="280" width="130" height="60" rx="8" fill="#1a3a5c" stroke="#00d4ff" stroke-width="2"/>
+  <text x="745" y="305" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="12">📱 Serial</text>
+  <text x="745" y="325" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">TX/RX</text>
+  
+  <!-- Arrow Down -->
+  <polygon points="600,380 580,350 620,350" fill="#ffaa00" filter="url(#glow)"/>
+  <text x="600" y="400" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="14" font-weight="bold">Serial 9600</text>
+  <text x="600" y="415" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="10">(1kΩ + 2kΩ Divider)</text>
+  
+  <!-- Arduino UNO Box -->
+  <rect x="350" y="460" width="500" height="350" rx="15" fill="#0a1628" stroke="#00979d" stroke-width="3"/>
+  <rect x="350" y="460" width="500" height="40" rx="15" fill="url(#arduinoGrad)"/>
+  <text x="600" y="488" text-anchor="middle" fill="#000" font-family="Arial" font-size="20" font-weight="bold">Arduino UNO (Motor Controller)</text>
+  
+  <!-- Arduino Sensors -->
+  <rect x="380" y="520" width="100" height="80" rx="8" fill="#1a3a5c" stroke="#00979d" stroke-width="2"/>
+  <text x="430" y="548" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="11">☀️ LDR TL</text>
+  <text x="430" y="565" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="11">☀️ LDR TR</text>
+  <text x="430" y="582" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="11">☀️ LDR BL</text>
+  <text x="430" y="599" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="11">☀️ LDR BR</text>
+  
+  <rect x="500" y="520" width="80" height="80" rx="8" fill="#1a3a5c" stroke="#00979d" stroke-width="2"/>
+  <text x="540" y="555" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="11">🎛️</text>
+  <text x="540" y="575" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="10">Encoder</text>
+  <text x="540" y="590" text-anchor="middle" fill="#aaa" font-size="9">+ Button</text>
+  
+  <!-- Servos -->
+  <rect x="600" y="520" width="100" height="80" rx="8" fill="#1a3a5c" stroke="#ffaa00" stroke-width="2"/>
+  <text x="650" y="550" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="12">🔄 SERVO H</text>
+  <text x="650" y="575" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Horizontal</text>
+  <text x="650" y="590" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="9">Pin 9</text>
+  
+  <rect x="720" y="520" width="100" height="80" rx="8" fill="#1a3a5c" stroke="#ffaa00" stroke-width="2"/>
+  <text x="770" y="550" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="12">🔄 SERVO V</text>
+  <text x="770" y="575" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Vertical</text>
+  <text x="770" y="590" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="9">Pin 10</text>
+  
+  <!-- LCD -->
+  <rect x="380" y="620" width="200" height="80" rx="8" fill="#0a1400" stroke="#aaff00" stroke-width="2"/>
+  <text x="480" y="650" text-anchor="middle" fill="#aaff00" font-family="Arial" font-size="12">🖥️ 16x2 LCD I2C</text>
+  <text x="480" y="670" text-anchor="middle" fill="#aaff00" font-family="Arial" font-size="10">0x27 Address</text>
+  <text x="480" y="685" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="9">SDA=A4, SCL=A5</text>
+  
+  <!-- Power Box -->
+  <rect x="600" y="620" width="200" height="80" rx="8" fill="#1a3a5c" stroke="#ff4455" stroke-width="2"/>
+  <text x="700" y="650" text-anchor="middle" fill="#ff4455" font-family="Arial" font-size="12">⚡ POWER</text>
+  <text x="700" y="670" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">2x 18650 Battery</text>
+  <text x="700" y="685" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="9">+ Boost Converter 5V</text>
+  
+  <!-- Solar Panel -->
+  <rect x="820" y="520" width="130" height="180" rx="10" fill="#0a1628" stroke="#ffaa00" stroke-width="3"/>
+  <rect x="830" y="530" width="110" height="100" rx="5" fill="#1a3a5c" stroke="#ffaa00" stroke-width="2"/>
+  <line x1="840" y1="540" x2="840" y2="620" stroke="#ffaa00" stroke-width="1"/>
+  <line x1="860" y1="540" x2="860" y2="620" stroke="#ffaa00" stroke-width="1"/>
+  <line x1="880" y1="540" x2="880" y2="620" stroke="#ffaa00" stroke-width="1"/>
+  <line x1="900" y1="540" x2="900" y2="620" stroke="#ffaa00" stroke-width="1"/>
+  <line x1="920" y1="540" x2="920" y2="620" stroke="#ffaa00" stroke-width="1"/>
+  <line x1="830" y1="560" x2="940" y2="560" stroke="#ffaa00" stroke-width="1"/>
+  <line x1="830" y1="580" x2="940" y2="580" stroke="#ffaa00" stroke-width="1"/>
+  <line x1="830" y1="600" x2="940" y2="600" stroke="#ffaa00" stroke-width="1"/>
+  <text x="885" y="720" text-anchor="middle" fill="#ffaa00" font-family="Arial" font-size="14" font-weight="bold">☀️ SOLAR PANEL</text>
+  <text x="885" y="740" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="10">Dual Axis Movement</text>
+  
+  <!-- Arrows from servos to panel -->
+  <line x1="885" y1="600" x2="885" y2="520" stroke="#ffaa00" stroke-width="2" stroke-dasharray="5,5"/>
+  <polygon points="885,520 875,540 895,540" fill="#ffaa00"/>
+  
+  <!-- Legend -->
+  <rect x="50" y="150" width="200" height="200" rx="10" fill="#0a1628" stroke="#4a6a8a" stroke-width="2"/>
+  <text x="150" y="175" text-anchor="middle" fill="#c8d8e8" font-family="Arial" font-size="16" font-weight="bold">LEGEND</text>
+  
+  <line x1="70" y1="200" x2="100" y2="200" stroke="#ffaa00" stroke-width="3"/>
+  <text x="110" y="205" fill="#ffaa00" font-family="Arial" font-size="12">Serial Communication</text>
+  
+  <line x1="70" y1="230" x2="100" y2="230" stroke="#00ff88" stroke-width="3"/>
+  <text x="110" y="235" fill="#00ff88" font-family="Arial" font-size="12">LDR Light Sensors</text>
+  
+  <line x1="70" y1="260" x2="100" y2="260" stroke="#ff4455" stroke-width="3"/>
+  <text x="110" y="265" fill="#ff4455" font-family="Arial" font-size="12">Power Supply</text>
+  
+  <line x1="70" y1="290" x2="100" y2="290" stroke="#00d4ff" stroke-width="3"/>
+  <text x="110" y="295" fill="#00d4ff" font-family="Arial" font-size="12">ESP32 Data Flow</text>
+  
+  <line x1="70" y1="320" x2="100" y2="320" stroke="#00979d" stroke-width="3"/>
+  <text x="110" y="325" fill="#00979d" font-family="Arial" font-size="12">Arduino Data Flow</text>
+  
+  <!-- Team Credits -->
+  <rect x="50" y="400" width="200" height="120" rx="10" fill="#0a1628" stroke="#4a6a8a" stroke-width="2"/>
+  <text x="150" y="425" text-anchor="middle" fill="#c8d8e8" font-family="Arial" font-size="14" font-weight="bold">TEAM</text>
+  <text x="150" y="450" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="11">@sam-black007</text>
+  <text x="150" y="465" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="9">Software / ESP32</text>
+  <text x="150" y="490" text-anchor="middle" fill="#00979d" font-family="Arial" font-size="11">@kmsrihari123</text>
+  <text x="150" y="505" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="9">Hardware / Arduino</text>
+  
+  <!-- Features Box -->
+  <rect x="950" y="150" width="200" height="280" rx="10" fill="#0a1628" stroke="#4a6a8a" stroke-width="2"/>
+  <text x="1050" y="175" text-anchor="middle" fill="#c8d8e8" font-family="Arial" font-size="14" font-weight="bold">KEY FEATURES</text>
+  
+  <text x="970" y="200" fill="#00ff88" font-family="Arial" font-size="11">✓ Dual Axis Tracking</text>
+  <text x="970" y="220" fill="#00ff88" font-family="Arial" font-size="11">✓ LDR Sun Detection</text>
+  <text x="970" y="240" fill="#00ff88" font-family="Arial" font-size="11">✓ Web Dashboard</text>
+  <text x="970" y="260" fill="#00ff88" font-family="Arial" font-size="11">✓ Weather APIs</text>
+  <text x="970" y="280" fill="#00ff88" font-family="Arial" font-size="11">✓ Solar Analytics</text>
+  <text x="970" y="300" fill="#00ff88" font-family="Arial" font-size="11">✓ LCD Display</text>
+  <text x="970" y="320" fill="#00ff88" font-family="Arial" font-size="11">✓ Encoder Control</text>
+  <text x="970" y="340" fill="#00ff88" font-family="Arial" font-size="11">✓ EEPROM Storage</text>
+  <text x="970" y="360" fill="#00ff88" font-family="Arial" font-size="11">✓ Battery Powered</text>
+  <text x="970" y="380" fill="#00ff88" font-family="Arial" font-size="11">✓ Mobile Responsive</text>
+  
+  <!-- Footer -->
+  <text x="600" y="870" text-anchor="middle" fill="#4a6a8a" font-family="Arial" font-size="14">github.com/sam-black007/dual-axis-solar-tracker</text>
+</svg>
