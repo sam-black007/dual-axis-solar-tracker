@@ -215,19 +215,84 @@ VCC ──────┬─────┬─────┬─────┐
 
 ## 💻 Technologies Used
 
-### Complete Tech Stack
+### 🛠️ Languages & Technologies
 
-| Layer | Technology | Purpose | Location |
-|-------|------------|---------|----------|
-| **Hardware** | ESP32 + Arduino UNO | Dual-controller system | Physical hardware |
-| **Firmware** | C++ (Arduino) | Servo control, LDR tracking, LCD | Both boards |
-| **Web Server** | C++ (ESP32) | Hosts web dashboard internally | ESP32 memory |
-| **Frontend** | HTML + CSS + JavaScript | Web dashboard UI | Embedded in ESP32 |
-| **Communication** | Serial (UART) | Arduino ↔ ESP32 data exchange | Wire connection |
+| Technology | Type | Purpose |
+|------------|------|---------|
+| **C++ (Arduino Framework)** | Programming Language | Firmware for both ESP32 and Arduino UNO |
+| **HTML5** | Web Language | Web dashboard structure |
+| **CSS3** | Web Language | Dashboard styling and responsive design |
+| **JavaScript** | Web Language | Real-time data updates and interactivity |
 
-### How It Works
+### 🎯 No Python Used!
+
+This project uses **C++** (Arduino framework), **NOT Python** because:
+- Python is **too slow** for real-time servo motor control
+- Python requires **more memory** than embedded MCUs have
+- C++ provides **direct hardware access** for precise control
+
+### 🌐 How The Web Dashboard Works
+
+The web dashboard is **NOT a separate website** - it's **embedded inside the ESP32**!
 
 ```
+┌─────────────────────────────────────────────────────────────────┐
+│                         ESP32 (IoT Controller)                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │  📦 Stored in ESP32 Flash Memory (4MB)                  │   │
+│   │                                                          │   │
+│   │   ┌─────────────┐                                      │   │
+│   │   │    C++      │  ← Web Server Code                   │   │
+│   │   │  WebServer  │                                      │   │
+│   │   └──────┬──────┘                                      │   │
+│   │          │                                              │   │
+│   │   ┌──────▼──────┐                                      │   │
+│   │   │   HTML +    │  ← Dashboard UI                       │   │
+│   │   │ CSS + JS    │  ← Embedded as strings in C++        │   │
+│   │   └─────────────┘                                      │   │
+│   │                                                          │   │
+│   └─────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│   📱 Access Dashboard: Connect to ESP32 WiFi → Open Browser    │
+│   🌐 URL: http://192.168.x.x (shown on LCD)                   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+                            │ Serial
+                            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Arduino UNO (Motor Controller)               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   📦 C++ Firmware Only                                          │
+│                                                                  │
+│   • LDR Sun Tracking Algorithm                                    │
+│   • Servo Motor Control                                           │
+│   • LCD Menu System                                               │
+│   • Encoder Input Handling                                         │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 📋 Complete Tech Stack
+
+| Component | Technology | Where It Runs |
+|-----------|------------|----------------|
+| **ESP32 Firmware** | C++ (Arduino) | ESP32 chip |
+| **Arduino Firmware** | C++ (Arduino) | Arduino UNO chip |
+| **Web Server** | C++ (ESP32 WebServer library) | ESP32 chip |
+| **Dashboard UI** | HTML + CSS + JavaScript | Stored in ESP32, served to browser |
+| **Sensor Data** | Serial (UART) | Via wire between boards |
+
+### Why This Tech Stack?
+
+| Technology | Why We Used It |
+|------------|----------------|
+| **ESP32** | Built-in WiFi + Can host web server + Flash storage for HTML/CSS/JS |
+| **Arduino UNO** | Stable servo control + More ADC pins for LDR sensors |
+| **C++** | Fast execution + Direct hardware control + Low memory usage |
+| **HTML/CSS/JS** | Lightweight + Works in any browser + No app needed |
 ┌─────────────────────────────────────────────────────────────────┐
 │                         ESP32 (IoT Controller)                    │
 ├─────────────────────────────────────────────────────────────────┤
@@ -269,24 +334,6 @@ VCC ──────┬─────┬─────┬─────┐
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
-
-### Why This Tech Stack?
-
-| Technology | Why We Used It | Alternative |
-|------------|----------------|--------------|
-| **ESP32** | Built-in WiFi, Dual-core processor, Can host web server, Flash memory for HTML/CSS/JS | Raspberry Pi Pico W (more expensive, higher power) |
-| **Arduino UNO** | Precise PWM for servos, Stable real-time timing, 6+ analog inputs | ESP32 alone (but servo timing is less stable) |
-| **C++ (Arduino)** | Best for hardware control, Direct register access, Low memory usage, Fast execution | Python (too slow for real-time servo control) |
-| **HTML/CSS/JS** | Embedded directly in ESP32 flash, No external server needed, Works on any browser/device | React/Vue (too heavy for embedded systems) |
-| **Web Dashboard** | Runs ON the ESP32 itself, Access from any device on WiFi, No app installation needed | Native mobile app (more development effort) |
-
-### No Python Required! 
-
-The entire system runs on **C++ firmware**:
-- ESP32: Web server + HTML dashboard + WiFi
-- Arduino: Motor control + Sensors
-
-Python would be **too slow** for real-time servo control and requires more memory than embedded MCUs have.
 
 ### Architecture Decision: Why Two Boards?
 
