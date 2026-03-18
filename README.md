@@ -70,7 +70,7 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 
 ## 🏗️ System Architecture
 
-![System Architecture](images/system_architecture.png)
+![System Architecture](images/system_architecture.svg)
 
 ---
 
