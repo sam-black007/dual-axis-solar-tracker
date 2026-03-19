@@ -173,36 +173,6 @@ VCC ──────┬─────┬─────┬─────┐
 
 ---
 
-## 🔄 System Logic Flow
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         OPERATIONAL FLOW                             │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  1. LDR SENSORS ──▶ Detect light direction                        │
-│         │                                                           │
-│         ▼                                                           │
-│  2. ARDUINO ────▶ Process light differential                      │
-│         │                                                           │
-│         ▼                                                           │
-│  3. SERVOS ─────▶ Move panel toward sun                            │
-│         │                                                           │
-│         ▼                                                           │
-│  4. SENSORS ────▶ Collect environment data                          │
-│     (DHT11)                                                        │
-│         │                                                           │
-│         ▼                                                           │
-│  5. LCD ─────────▶ Display readings                                 │
-│         │                                                           │
-│         ▼                                                           │
-│  6. SERIAL ─────▶ Send data to ESP32                              │
-│         │                                                           │
-│         ▼                                                           │
-│  7. ESP32 ──────▶ Upload to web dashboard                          │
-│                                                                      │
-└─────────────────────────────────────────────────────────────────────┘
-```
 
 ---
 
