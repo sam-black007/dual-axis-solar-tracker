@@ -62,7 +62,7 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 
 ## 📷 Hardware Setup
 
-![Hardware Setup](images/hardware_setup.png)
+![Hardware Setup](images/hardware.jpg)
 
 ---
 
