@@ -56,7 +56,7 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 
 ## 🔌 Circuit Diagram
 
-![Circuit Diagram](images/circuit_diagram_final.png)
+![Circuit Diagram](images/circuit_diagram.png)
 
 ---
 
