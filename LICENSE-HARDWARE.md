@@ -10,6 +10,8 @@
 
 # Attribution-NonCommercial-ShareAlike 4.0 International
 
+**Copyright (c) 2026 Sam Joseph, K M Sri Hari**
+
 </div>
 
 ---

@@ -8,7 +8,7 @@
 
 ---
 
-**Copyright (c) 2026 Sam Joseph**
+**Copyright (c) 2026 Sam Joseph, K M Sri Hari**
 
 </div>
 
