@@ -66,6 +66,21 @@ This is a multi-sensor autonomous control system built around two microcontrolle
 
 ---
 
+## 🔧 LDR + Servo Circuit Schematic
+
+This schematic shows the core ESP32-based solar tracking circuit with LDR sensors for sun detection and MG996R servo motors for dual-axis positioning.
+
+![LDR Servo Schematic](images/ldr_servo_circuit_schematic.jpg)
+
+### Components Highlighted:
+- **ESP32** - Main controller with WiFi capabilities
+- **4× LDR Sensors** - Arranged in quadrants for directional light detection
+- **2× MG996R Servos** - Horizontal (X-axis) and Vertical (Y-axis) positioning
+- **16×2 LCD Display** - Real-time position and status display
+- **10kΩ Pull-down Resistors** - For LDR sensor circuit
+
+---
+
 ## 📦 Hardware Requirements
 
 ### Power System
