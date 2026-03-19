@@ -1,12 +1,14 @@
 <div align="center">
 
-# MIT License
+# Creative Commons License
 
-**For Software and Code Components**
+**For Software, Code, and Firmware**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ---
+
+# Attribution-NonCommercial-ShareAlike 4.0 International
 
 **Copyright (c) 2026 Sam Joseph, K M Sri Hari**
 
@@ -14,17 +16,57 @@
 
 ---
 
-## Permission
+## You are free to:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**Share** — copy and redistribute the material in any medium or format
 
-## Conditions
+**Adapt** — remix, transform, and build upon the material
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Under the following terms:
+
+---
+
+## Attribution
+
+You must give **appropriate credit**, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+---
+
+## NonCommercial
+
+You may **not** use the material for **commercial purposes**. Commercial use includes:
+
+- Selling the software or derived products
+- Using for commercial products or services
+- Any use primarily intended for commercial advantage
+
+---
+
+## ShareAlike
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the **same license** as the original.
+
+---
+
+## No Additional Restrictions
+
+You may not apply legal terms or **technological measures** that legally restrict others from doing anything the license permits.
+
+---
 
 ## Disclaimer
 
-**THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.**
+<div align="center">
+
+**THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY.**
+
+</div>
+
+---
+
+## Legal Code
+
+For the complete legal terms and conditions, visit: [https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
 
 ---
 
